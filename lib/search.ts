@@ -169,16 +169,22 @@ function scoreDish(dish: Dish, parsed: ParsedQuery): { score: number; reasons: s
   }
 
   // Keyword matches against the dish name, restaurant, cuisine and tags.
-  const haystack = `${dish.name} ${dish.restaurant} ${dish.cuisine} ${dish.tags.join(" ")}`.toLowerCase()
-  for (const keyword of parsed.keywords) {
-    if (dish.name.toLowerCase().includes(keyword)) {
-      score += 4
-      reasons.push(`Matches "${keyword}"`)
-    } else if (haystack.includes(keyword)) {
-      score += 2
-      reasons.push(`Related to "${keyword}"`)
-    }
+const haystack = `${dish.name} ${dish.restaurant} ${dish.cuisine} ${dish.tags.join(" ")}`.toLowerCase()
+
+for (const keyword of parsed.keywords) {
+  const inName = dish.name.toLowerCase().includes(keyword)
+  const inHaystack = haystack.includes(keyword)
+
+  if (inName) {
+    score += 5
+    reasons.push(`Matches "${keyword}"`)
+  } else if (inHaystack) {
+    score += 1
+    reasons.push(`Related to "${keyword}"`)
+  } else {
+    score -= 3
   }
+}
 
   return { score, reasons }
 }
