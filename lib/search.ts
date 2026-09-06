@@ -1,5 +1,13 @@
 import type { Dish, Filters, SearchResult } from "./types"
 
+export const EXAMPLE_QUERIES = [
+  "spicy chicken soup",
+  "chicken biryani under ₹300",
+  "healthy vegetarian dinner",
+  "high protein meal",
+  "quick breakfast",
+]
+
 interface ParsedQuery {
   maxPrice: number | null
   minPrice: number | null
